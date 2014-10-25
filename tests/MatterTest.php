@@ -52,6 +52,20 @@ class MatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Alice', $object[0]['name']->get());
         $this->assertEquals('Bob', $object[1]['name']->get());
         $this->assertNull($object[2]['name']->get());
+
+        $this->assertTrue(isset($object[1]['name']));
+        $this->assertFalse(isset($object[2]['name']));
+    }
+
+    public function testNodesAreReadOnly()
+    {
+        $object = Matter::fromJson('[{"name":"Alice"},{"name":"Bob"}]');
+
+        $object[0]['name'] = 'foo';
+        $this->assertEquals('Alice', $object[0]['name']->get());
+
+        unset($object[0]['name']);
+        $this->assertEquals('Alice', $object[0]['name']->get());
     }
 
     public function testHaveMagicGetter()
