@@ -92,7 +92,7 @@ class Node implements \ArrayAccess, \Iterator
      */
     public function current()
     {
-        return is_array($this->value) ? new self(current($this->value)) : new self();
+        return is_array($this->value) ? new self(current($this->value)) : new self(null);
     }
 
     /**
