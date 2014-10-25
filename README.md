@@ -70,14 +70,18 @@ $object->get(1)->get('name')->get(); // "Bob"
 $object->get(2)->get('name')->get(); // null
 ```
 
-Each Matter node also implements `ArrayAccess`, so that allows you to work
-even faster!
+Each Matter node also implements `ArrayAccess` and `Iterator`, which  allows
+you to work even faster!
 
 ```php
-$object = Matter::fromJson('[{"name":"Alice"},{"name":"Bob"}]');
-$object[0]['name']->get(); // "Alice"
-$object[1]['name']->get(); // "Bob"
-$object[2]['name']->get(); // null
+$users = Matter::fromJson('[{"name":"Alice"},{"name":"Bob"}]');
+$users[0]['name']->get(); // "Alice"
+$users[1]['name']->get(); // "Bob"
+$users[2]['name']->get(); // null
+
+foreach ($users as $user) {
+    $name = $user['name']->get();
+}
 ```
 
 Additionally, you can also safely access properties of the object without having

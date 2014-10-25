@@ -4,7 +4,7 @@ namespace Belt\Matter;
 /**
  * @author Ramon Kleiss <ramonkleiss@gmail.com>
  */
-class Node implements \ArrayAccess
+class Node implements \ArrayAccess, \Iterator
 {
     /** @var mixed */
     private $value;
@@ -75,5 +75,49 @@ class Node implements \ArrayAccess
      */
     public function offsetUnset($offset)
     {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function rewind()
+    {
+        if (is_array($this->value)) {
+            reset($this->value);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function current()
+    {
+        return is_array($this->value) ? new self(current($this->value)) : new self();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function key()
+    {
+        return is_array($this->value) ? key($this->value) : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function next()
+    {
+        if (is_array($this->value)) {
+            next($this->value);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function valid()
+    {
+        return is_array($this->value) ? false !== current($this->value) : false;
     }
 }
