@@ -45,4 +45,12 @@ class MatterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($object->get('not existing')->get('foo')->get());
     }
+
+    public function testImplementArrayAccess()
+    {
+        $object = Matter::fromJson('[{"name":"Alice"},{"name":"Bob"}]');
+        $this->assertEquals('Alice', $object[0]['name']->get());
+        $this->assertEquals('Bob', $object[1]['name']->get());
+        $this->assertNull($object[2]['name']->get());
+    }
 }

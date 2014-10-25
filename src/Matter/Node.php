@@ -4,7 +4,7 @@ namespace Belt\Matter;
 /**
  * @author Ramon Kleiss <ramonkleiss@gmail.com>
  */
-class Node
+class Node implements \ArrayAccess
 {
     /** @var mixed */
     private $value;
@@ -35,5 +35,35 @@ class Node
         } else {
             return new self(null);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetExists($offset)
+    {
+        return $this->get($offset)->get() !== null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetSet($offset, $value)
+    {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function offsetUnset($offset)
+    {
     }
 }
