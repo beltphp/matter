@@ -76,6 +76,16 @@ class MatterTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(0, $k);
             $this->assertEquals('Alice', $user->get('name')->get());
         }
+
+        $i      = 0;
+        $object = Matter::fromJson('{"foo":[1, 1, 1, 1]}');
+
+        foreach ($object->foo as $k) {
+            $this->assertEquals(1, $k->get());
+            $i++;
+        }
+
+        $this->assertEquals(4, $i);
     }
 
     public function testHaveMagicGetter()
