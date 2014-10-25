@@ -1,5 +1,11 @@
 # Belt.`Matter`
 
+[![Latest Version](http://img.shields.io/packagist/v/belt/matter.svg?style=flat-square)](https://github.com/beltphp/matter/releases)
+[![Software License](http://img.shields.io/packagist/l/belt/matter.svg?style=flat-square)](LICENSE)
+[![Build Status](https://img.shields.io/travis/beltphp/matter/master.svg?style=flat-square)](https://travis-ci.org/beltphp/releases)
+[![Coverage Status](http://img.shields.io/scrutinizer/coverage/g/beltphp/matter.svg?style=flat-square)](https://scrutinizer-ci.com/g/beltphp/matter/code-structure)
+[![Quality Score](http://img.shields.io/scrutinizer/g/beltphp/matter.svg?style=flat-square)](https://scrutinizer-ci.com/g/beltphp/matter/)
+
 > Proper object traversal
 
 Belt.`Matter` is an utility library that makes working with JSON objects
