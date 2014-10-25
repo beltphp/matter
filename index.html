@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Matter by beltphp</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Matter</h1>
+        <p>Proper object traversal.</p>
+
+        <p class="view"><a href="https://github.com/beltphp/matter">View the Project on GitHub <small>beltphp/matter</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/beltphp/matter/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/beltphp/matter/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/beltphp/matter">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="beltmatter" class="anchor" href="#beltmatter"><span class="octicon octicon-link"></span></a>Belt.<code>Matter</code>
+</h1>
+
+<blockquote>
+<p>Proper object traversal</p>
+</blockquote>
+
+<p>Belt.<code>Matter</code> is an utility library that makes working with JSON objects
+a bit (actually a lot) more pleasant. It converts JSON strings, objects or
+arrays to a proper tree structure that can be traversed without warnings or
+errors.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Via Composer.</p>
+
+<div class="highlight highlight-shell"><pre><span class="nv">$ </span>composer require belt/matter
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>When we use JSON in PHP, we usually have to use the properties of the JSON
+object. This is really nice and all, but it doesn't work when a property
+does not exist.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$object</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="s1">'{"foo":"bar","bar":[1, 2, 3, 4]","baz":"lorem ipsum"}'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">foo</span><span class="p">;</span>       <span class="c1">// "bar"</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">something</span><span class="p">;</span> <span class="c1">// BOOM!</span>
+</pre></div>
+
+<p>Well, that's not really nice, is it? We have to put guards around everytime we
+want to use a property.</p>
+
+<p>This is where Matter comes in handy!</p>
+
+<div class="highlight highlight-php"><pre><span class="c1">// Before</span>
+<span class="nv">$object</span> <span class="o">=</span> <span class="nb">json_decode</span><span class="p">(</span><span class="s1">'{"foo":"bar"}'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">foo</span><span class="p">;</span>       <span class="c1">// "bar"</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">something</span><span class="p">;</span> <span class="c1">// BOOM!</span>
+
+<span class="c1">// After</span>
+<span class="k">use</span> <span class="nx">Belt\Matter</span><span class="p">;</span>
+
+<span class="nv">$object</span> <span class="o">=</span> <span class="nx">Matter</span><span class="o">::</span><span class="na">fromJson</span><span class="p">(</span><span class="s1">'{"foo":"bar"}'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>         <span class="c1">// "bar"</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'something'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>   <span class="c1">// null</span>
+</pre></div>
+
+<p>What Matter does for you, is convert a given JSON string or value into a tree
+structure. This allows you to request nodes from the tree without being afraid
+of errors/warnings that are thrown.</p>
+
+<p>You can always access any value in the JSON object.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$object</span> <span class="o">=</span> <span class="nx">Matter</span><span class="o">::</span><span class="na">fromJson</span><span class="p">(</span><span class="s1">'{"foo":[1, 2, 3, 4],"bar":"lorem"}'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// 1</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'foo'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// null</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'bar'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span>         <span class="c1">// "lorem"</span>
+
+<span class="nv">$object</span> <span class="o">=</span> <span class="nx">Matter</span><span class="o">::</span><span class="na">fromJson</span><span class="p">(</span><span class="s1">'[{"name":"Alice"},{"name":"Bob"}]'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// "Alice"</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// "Bob"</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// null</span>
+</pre></div>
+
+<p>Each Matter node also implements <code>ArrayAccess</code>, so that allows you to work
+even faster!</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$object</span> <span class="o">=</span> <span class="nx">Matter</span><span class="o">::</span><span class="na">fromJson</span><span class="p">(</span><span class="s1">'[{"name":"Alice"},{"name":"Bob"}]'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// "Alice"</span>
+<span class="nv">$object</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// "Bob"</span>
+<span class="nv">$object</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="s1">'name'</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// null</span>
+</pre></div>
+
+<p>Additionally, you can also safely access properties of the object without having
+to use get to retrieve the property node.</p>
+
+<div class="highlight highlight-php"><pre><span class="nv">$object</span> <span class="o">=</span> <span class="nx">Matter</span><span class="o">::</span><span class="na">fromJson</span><span class="p">(</span><span class="s1">'{"foo":{"bar":{"baz":42}}}'</span><span class="p">);</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">foo</span><span class="o">-&gt;</span><span class="na">bar</span><span class="o">-&gt;</span><span class="na">baz</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// 42</span>
+<span class="nv">$object</span><span class="o">-&gt;</span><span class="na">baz</span><span class="o">-&gt;</span><span class="na">bar</span><span class="o">-&gt;</span><span class="na">foo</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// null</span>
+</pre></div>
+
+<h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Please see <a href="https://github.com/beltphp/matter/blob/master/CONTRIBUTING.md">CONTRIBUTING</a>.</p>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Please see <a href="https://github.com/beltphp/matter/blob/master/LICENSE">LICENSE</a>.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/beltphp">beltphp</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
