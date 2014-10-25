@@ -22,6 +22,16 @@ class Node implements \ArrayAccess
      *
      * @return mixed
      */
+    public function __get($key)
+    {
+        return $this->get($key);
+    }
+
+    /**
+     * @param string
+     *
+     * @return mixed
+     */
     public function get($key = null)
     {
         if (is_null($key)) {
